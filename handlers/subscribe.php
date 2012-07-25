@@ -15,18 +15,13 @@ if ($f->submit ()) {
 	//Perform Mailchimp API Call
 	$retval = $api->listSubscribe($_POST['list_id'], $_POST['email'], array('FNAME'=>'Jared','LNAME'=>'Short'));
 
+
 if ($api->errorCode){
 		//If something broke (API)
-		$message = '<p>Uh oh! Something has gone wrong, you weren\'t subscrbed. <br /> <a href="/contact">Let us know!</a></p>';
-
-		$page->title = i18n_get ('Something Went Wrong!');
-		echo $tpl->render('newsletter/complete',array('message'=>$message));
-
+		$this->redirect('newsletter/failure');
 	} else {
 		//Everything worked they should get an email
-		$page->title = i18n_get ('Thanks for Signing Up!');
-	    	$message = "<p>You have Subscribed - look for the confirmation email!</p>";
-		echo $tpl->render('newsletter/complete',array('message'=>$message));
+		$this->redirect('newsletter/success');
 	}
 
 

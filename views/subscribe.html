@@ -24,10 +24,11 @@ $(function () {
 	{% foreach failed %}
 	$('#{{ loop_value }}-notice').show ();
 	{% end %}
+
 });
 </script>
 
-<form method="POST" id="subscribe-form">
+<form method="POST" name="subscribe-form" id="subscribe-form">
 <p>{"First Name"}:<br /><input type="text" name="first_name" size="40" value="{{ first_name }}" />
 <span class="notice" id="first_name-notice">{"You must enter your first name."}</span></p>
 <p>{"Last Name"}:<br /><input type="text" name="last_name" size="40" value="{{ last_name }}" />
