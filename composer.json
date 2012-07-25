@@ -1,0 +1,20 @@
+{
+    "name": "elefant/app-newsletter",
+    "type": "elefant-app",
+    "description": "Newsletter via Mailchimp app for the Elefant CMS",
+    "keywords": ["newsletter", "mailchimp", "subscribe", "cms", "app"],
+    "license": "MIT",
+	"authors": [
+		{
+			"name": "Jared Short",
+			"email": "jaredlshort@gmail.com",
+			"homepage": "http://www.jaredshort.com/"
+		}
+	],
+    "repositories": [
+        {"type": "git", "url": "http://github.com/jbroadway/elefant_installer"}
+    ],
+    "require": {
+        "elefant/app-installer": "*"
+    }
+}

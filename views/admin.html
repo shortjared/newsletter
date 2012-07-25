@@ -1,0 +1,13 @@
+<div>Total Lists: {{ lists_count }}</div>
+
+{% foreach lists %}
+<div>
+	<ul>
+		<li>Name: {{ loop_value['name'] }}</li>
+		<li>Memers: {{ loop_value['stats']['member_count'] }}</li>
+		<li>Unsubscribed: {{ loop_value['stats']['unsubscribe_count'] }}</li>
+		<li>Subscribe URL: <a href="{{ loop_value['subscribe_url_short'] }}">{{ loop_value['subscribe_url_short'] }}</a></li>
+	</ul>
+
+</div>
+{% end %}
