@@ -21,28 +21,5 @@ else
 
 }
 
-
-/*
-
-	//Create API Object for Mailchimp
-	require_once 'apps/newsletter/lib/MCAPI.class.php';
-	$settings = parse_ini_file ('conf/newsletter.php');
-	$apikey = $settings['mailchimp_api'];
-	$api = new MCAPI($apikey);
-
-
-	$retval = $api->listSubscribe($_POST['list_id'], $_POST['email'], array('FNAME'=>'Jared','LNAME'=>'Short'));
-
-	if ($api->errorCode){
-	echo "Unable to subscribe!";
-	echo "\n\tCode=".$api->errorCode;
-	echo "\n\tMsg=".$api->errorMessage."\n";
-		$message = '<p>Uh oh! Something has gone wrong, you weren\'t subscrbed. <br /> <a href="/contact">Let us know!</a></p>';
-	} else {
-		echo "Hoorah!";
-	    	$message = "<p>You have Subscribed - look for the confirmation email!</p>";
-	}
-*/
-
 ?>
 
