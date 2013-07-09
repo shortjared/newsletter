@@ -1,6 +1,6 @@
 <?php
 //First check if this is form submissions if so, redirect to full registration form
-if(isset($_POST['list_id'])))
+if(isset($_POST['list_id']))
 {
 	$this->redirect('newsletter/subscribe?email='.$_POST['email'].'&list_id='.$_POST['list_id']);
 }
