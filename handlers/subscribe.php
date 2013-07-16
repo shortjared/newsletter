@@ -13,7 +13,7 @@ if ($f->submit ()) {
 
 
 	//Perform Mailchimp API Call
-	$retval = $api->listSubscribe($_POST['list_id'], $_POST['email'], array('FNAME'=>'Jared','LNAME'=>'Short'));
+	$retval = $api->listSubscribe($_POST['list_id'], $_POST['email'], array('FNAME'=>$_POST['first_name'],'LNAME'=>$_POST['last_name']));
 
 
 if ($api->errorCode){
