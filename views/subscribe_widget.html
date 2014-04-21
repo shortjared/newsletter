@@ -1,6 +1,35 @@
-<form name="subscribe_widget_{{ list_id }}" action="/newsletter/subscribe_widget" method="POST">
-	<label>Email:</label>	
-	<input name="email" type="text" />
-	<input name="list_id" type="hidden" value="{{ list_id }}" />
-	<input type="submit" value="Sign Me Up" />
+<form class="newsletter-widget" id="subscribe_widget_{{ list_id }}">
+	<label>{"Email"}:</label>	
+	<input name="email" type="email" />
+	<input type="submit" value="{'Subscribe'}" />
 </form>
+
+<script>
+$(function () {
+	$('#subscribe_widget_{{ list_id }}').on ('submit', function (e) {
+		e.preventDefault ();
+
+		var el =  $('#subscribe_widget_{{ list_id }}'),
+			form = el[0],
+			email = form.elements.email.value,
+			regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+		if (! regex.test (email)) {
+			alert ('{"Please enter a valid email address."}');
+			return false;
+		}
+
+		$.post (
+			'/newsletter/api/subscribe',
+			{list_id: '{{list_id}}', email: email},
+			function (res) {
+				if (! res.success) {
+					el.replaceWith ('<p>' + res.error + '</p>');
+				} else {
+					el.replaceWith ('<p>' + res.data + '</p>');
+				}
+			}
+		);
+	});
+});
+</script>

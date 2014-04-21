@@ -1,35 +1,50 @@
 <?php
 
 /**
- * This is the settings form to set your Google Analytics site ID.
- * Saves the site ID to the file conf/analytics.php.
+ * This is the settings form for the newsletter app.
  */
 
 $this->require_admin ();
 
-$page->title = 'Mailchimp Newsletter API Key';
+require_once ('apps/newsletter/lib/Functions.php');
+
+$page->title = 'Newsletters - Settings';
 $page->layout = 'admin';
 
-$f = new Form ('post', 'newsletter/admin');
+$form = new Form ('post', $this);
 
-if ($f->submit ()) {
-	$_POST['open'] = '<?php';
-	if (file_put_contents ('conf/newsletter.php', $tpl->render ('newsletter/conf', $_POST))) {
-		$this->add_notification (i18n_get ('Settings updated.'));
-		$this->redirect ('/newsletter/admin');
-	} else {
-		echo '<p><strong>' . i18n_get ('Failed to update settings. Please check your folder permissions and try again.') . '</strong></p>';
+$form->data = array (
+	'title' => Appconf::newsletter ('Newsletter', 'title'),
+	'mailchimp_api' => Appconf::newsletter ('Newsletter', 'mailchimp_api'),
+	'default_list' => Appconf::newsletter ('Newsletter', 'default_list')
+);
+
+echo $form->handle (function ($form) {
+	if (empty ($_POST['default_list'])) {
+		$lists = newsletter_raw_lists ($_POST['mailchimp_api']);
+		if (count ($lists) > 0) {
+			$_POST['default_list'] = $lists[0]['id'];
+		}
 	}
-}
 
-$o = new StdClass;
-if (file_exists ('conf/newsletter.php')) {
-	$settings = parse_ini_file ('conf/newsletter.php');
-	$o->site_id = $settings['mailchimp_api'];
-}
-
-$o = $f->merge_values ($o);
-$o->failed = $f->failed;
-echo $tpl->render ('newsletter/settings', $o);
+	$merged = Appconf::merge ('newsletter', array (
+		'Newsletter' => array (
+			'title' => $_POST['title'],
+			'mailchimp_api' => $_POST['mailchimp_api'],
+			'default_list' => $_POST['default_list']
+		)
+	));
+	
+	if (! Ini::write ($merged, 'conf/app.newsletter.' . ELEFANT_ENV . '.php')) {
+		printf (
+			'<p>%s</p>',
+			__ ('Unable to save changes. Check your permissions and try again.')
+		);
+		return;
+	}
+	
+	$form->controller->add_notification (__ ('Settings saved.'));
+	$form->controller->redirect ('/newsletter/admin');
+});
 
 ?>

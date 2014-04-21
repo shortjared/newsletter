@@ -7,36 +7,27 @@
 
 $this->require_admin ();
 
-$page->title = 'Newsletter';
+$page->title = 'Newsletters';
 $page->layout = 'admin';
 
-if (! @file_exists ('conf/newsletter.php')) {
+if (! file_exists ('conf/app.newsletter.' . ELEFANT_ENV . '.php')) {
 	$this->redirect ('/newsletter/settings');
 }
 
-require_once 'apps/newsletter/lib/MCAPI.class.php';
-
-
-$settings = parse_ini_file ('conf/newsletter.php');
-$apikey = $settings['mailchimp_api'];
-
+$apikey = Appconf::newsletter ('Newsletter', 'mailchimp_api');
 $api = new MCAPI($apikey);
 
 $retval = $api->lists();
 
-if ($api->errorCode){
-	echo "Unable to load lists()!";
-	echo "\n\tCode=".$api->errorCode;
-	echo "\n\tMsg=".$api->errorMessage."\n";
+if ($api->errorCode) {
+	printf ('<p>%s</p>', __ ('Unable to load lists from MailChimp at this time.'));
+	error_log ('[newsletter/admin] ' . $api->errorCode . ' ' . $api->errorMessage);
 } else {
-
-	echo $tpl->render ('newsletter/admin', array(
-	'lists_count' => $retval['total'],
-	'lists' => $retval['data'],
-));
-
+	echo $tpl->render ('newsletter/admin', array (
+		'lists_count' => $retval['total'],
+		'lists' => $retval['data'],
+		'default_list' => Appconf::newsletter ('Newsletter', 'default_list')
+	));
 }
-
-
 
 ?>
