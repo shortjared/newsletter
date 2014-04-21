@@ -1,13 +1,54 @@
-<div>Total Lists: {{ lists_count }}</div>
+<p>
+	<a href="/newsletter/settings">{"Settings"}</a>
+	&nbsp;|&nbsp;
+	<a href="https://login.mailchimp.com/">Visit MailChimp &raquo;</a>
+</p>
 
 {% foreach lists %}
-<div>
-	<ul>
-		<li>Name: {{ loop_value['name'] }}</li>
-		<li>Memers: {{ loop_value['stats']['member_count'] }}</li>
-		<li>Unsubscribed: {{ loop_value['stats']['unsubscribe_count'] }}</li>
-		<li>Subscribe URL: <a href="{{ loop_value['subscribe_url_short'] }}">{{ loop_value['subscribe_url_short'] }}</a></li>
-	</ul>
+<div class="newsletter">
+	<h5>{{ loop_value['name'] }}{% if loop_value['id'] == $data->default_list %} ({"default list"}){% end %}</h5>
 
+	<div class="stat">
+		<span class="figure">{{ loop_value['stats']['member_count'] }}</span>
+		<span class="label">{"Subscribers"}</span>
+	</div>
+
+	<div class="stat">
+		<span class="figure">{{ loop_value['stats']['open_rate']|round (%s, 2) }}%</span>
+		<span class="label">{"Opens"}</span>
+	</div>
+
+	<div class="stat">
+		<span class="figure">{{ loop_value['stats']['click_rate']|round (%s, 2) }}%</span>
+		<span class="label">{"Clicks"}</span>
+	</div>
+
+	<p class="subscribe-link">{"Subscribe link"}: <a href="{{ loop_value['subscribe_url_short'] }}">{{ loop_value['subscribe_url_short'] }}</a></p>
 </div>
 {% end %}
+
+<style>
+.newsletter h5 {
+	margin-bottom: 4px;
+}
+.stat {
+	display: inline-block;
+	width: 100px;
+	margin-right: 12px;
+	text-align: center;
+}
+
+	.stat .figure {
+		font-size: 24px;
+		display: block;
+	}
+	
+	.stat .label {
+		display: block;
+	}
+
+.subscribe-link {
+	margin-top: 10px;
+	clear: both;
+}
+</style>

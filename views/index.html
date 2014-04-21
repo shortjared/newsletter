@@ -1,0 +1,25 @@
+<form method="post" id="{{_form}}">
+
+<p>{"Sign up to receive our email newsletter."}</p>
+
+<p>
+	{"First name"}:<br />
+	<input type="text" name="first_name" size="30" value="{{ first_name|quotes }}" />
+	<span class="notice" id="first_name-notice">{"Please enter your first name."}</span>
+</p>
+
+<p>
+	{"Last name"}:<br />
+	<input type="text" name="last_name" size="30" value="{{ last_name|quotes }}" />
+	<span class="notice" id="last_name-notice">{"You must enter your last name."}</span>
+</p>
+
+<p>
+	{"Email address (required)"}:<br />
+	<input type="text" name="email" size="40" value="{{ email|quotes }}" />
+	<span class="notice" id="email-notice">{"You must enter a valid email, or your email may already be registered."}</span>
+</p>
+
+<p><input type="submit" value="Subscribe" /></p>
+
+</form>

@@ -1,35 +1,30 @@
-<script type="text/javascript" src="/js/jquery.verify_values.js"></script>
-<script type="text/javascript">
-$(function () {
-	$('#mailchimp-api-form').verify_values ({
-		handler: 'newsletter/admin',
-		callback: function (failed) {
-			// highlight the failed elements
-			for (var i = 0; i < failed.length; i++) {
-				$('#' + failed[i] + '-notice').show ();
-			}
-		},
-		reset: function (fields) {
-			for (var i = 0; i < fields.length; i++) {
-				$('#' + fields[i] + '-notice').hide ();
-			}
-		}
-	});
-	{% foreach failed %}
-	$('#{{ loop_value }}-notice').show ();
-	{% end %}
-});
-</script>
+<div class="form">
+<form method="POST" id="{{_form}}">
 
-<form method="POST" id="mailchimp-api-form">
+<p><a href="http://kb.mailchimp.com/article/where-can-i-find-my-api-key/" target="_blank">{" Where can I find my MailChimp API Key? "}</a></p>
 
-<p><a href="http://kb.mailchimp.com/article/where-can-i-find-my-api-key/" target="_blank">{" Where can I find my Mailchimp API Key? "}</a></p>
-
-<p>{" Mailchimp API Key "}:<br />
+<p>{"MailChimp API Key"}:<br />
 <input type="text" name="mailchimp_api" size="20" value="{{ mailchimp_api }}" />
-<span class="notice" id="mailchimp_api-notice">{" You must enter your Mailchimp API Key. "}</span>
+<span class="notice" id="mailchimp_api-notice">{" You must enter your MailChimp API Key. "}</span>
 </p>
 
-<p><input type="submit" value="{" Save Changes "}" /></p>
+<p>{"Newsletter page title"}:<br />
+<input type="text" name="title" size="40" value="{{ title|quotes }}" />
+<span class="notice" id="title-notice">{"You must enter a page title."}</span></p>
+
+<p>{"Default newsletter"}:<br />
+<select name="default_list">
+{% foreach newsletter_raw_lists () as newsletter %}
+	<?= Form::option ($data->newsletter['id'], $data->newsletter['name'], $data->default_list) ?>
+{% end %}
+</select>
+</p>
+
+<p>
+	<input type="submit" value="{" Save Settings "}" />
+	&nbsp;
+	<a href="/newsletter/admin" onclick="return confirm ('{"Are you sure you want to cancel and lose any changes?"}')">{"Cancel"}</a>
+</p>
 
 </form>
+</div>
