@@ -6,6 +6,7 @@
 
 $this->require_admin ();
 
+require_once ('apps/admin/lib/Functions.php');
 require_once ('apps/newsletter/lib/Functions.php');
 
 $page->title = 'Newsletters - Settings';
@@ -16,7 +17,9 @@ $form = new Form ('post', $this);
 $form->data = array (
 	'title' => Appconf::newsletter ('Newsletter', 'title'),
 	'mailchimp_api' => Appconf::newsletter ('Newsletter', 'mailchimp_api'),
-	'default_list' => Appconf::newsletter ('Newsletter', 'default_list')
+	'default_list' => Appconf::newsletter ('Newsletter', 'default_list'),
+	'layout' => Appconf::newsletter ('Newsletter', 'layout'),
+	'layouts' => admin_get_layouts ()
 );
 
 echo $form->handle (function ($form) {
@@ -31,7 +34,8 @@ echo $form->handle (function ($form) {
 		'Newsletter' => array (
 			'title' => $_POST['title'],
 			'mailchimp_api' => $_POST['mailchimp_api'],
-			'default_list' => $_POST['default_list']
+			'default_list' => $_POST['default_list'],
+			'layout' => $_POST['layout']
 		)
 	));
 	
