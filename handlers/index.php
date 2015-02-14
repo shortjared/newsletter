@@ -1,5 +1,7 @@
 <?php
 
+$page->id = 'newsletter';
+
 $page->title = Appconf::newsletter ('Newsletter', 'title');
 
 $default_list = Appconf::newsletter ('Newsletter', 'default_list');
